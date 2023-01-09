@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Flex, Text, Stack, FlexProps, color } from '@stacks/ui';
 
-export interface StackingTermItem extends FlexProps {
+export interface StackingTermItemProps extends FlexProps {
   title: string;
   icon: FC<any>;
 }
-export const StackingTermItem: FC<StackingTermItem> = props => {
+export const StackingTermItem: FC<StackingTermItemProps> = props => {
   const { title, icon: Icon, children, ...rest } = props;
   return (
     <Flex alignItems="baseline" {...rest}>

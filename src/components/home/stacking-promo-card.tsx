@@ -1,14 +1,14 @@
 import React, { FC, memo, useEffect } from 'react';
-import { Box, Button, color, Flex, Text } from '@stacks/ui';
-import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import routes from '@constants/routes.json';
-import { useFetchDelegationStatus } from '@hooks/use-fetch-delegation-status';
 import { AbstractBtcChartSvg } from '@components/svg/abstract-btc-chart';
+import routes from '@constants/routes';
+import { useFetchDelegationStatus } from '@hooks/use-fetch-delegation-status';
 import { useMempool } from '@hooks/use-mempool';
-import { isDelegateStxTx } from '@utils/tx-utils';
+import { Box, Button, Flex, Text, color } from '@stacks/ui';
 import { selectPoxInfo } from '@store/stacking';
+import { isDelegateStxTx } from '@utils/tx-utils';
 
 export const StackingPromoCard: FC = memo(() => {
   const history = useHistory();

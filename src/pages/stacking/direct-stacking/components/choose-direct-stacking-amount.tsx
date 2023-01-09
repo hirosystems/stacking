@@ -19,8 +19,8 @@ import {
 
 import { StackingStepBaseProps } from '../../utils/abstract-stacking-step';
 import {
-  StackingStep as Step,
-  StackingStepDescription as Description,
+  Step as Step,
+  Description as Description,
 } from '../../components/stacking-form-step';
 import { pseudoBorderLeft } from '@components/styles/pseudo-border-left';
 import { calculateRewardSlots, calculateStackingBuffer } from '../../utils/calc-stacking-buffer';

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { Box, color, Flex, FlexProps, Text } from '@stacks/ui';
 import { useFocus } from 'use-events';
 
@@ -10,9 +10,10 @@ interface DurationSelectItemProps extends Omit<FlexProps, 'onChange'> {
   activeDelegationType: DelegationTypes | null;
   onChange(duration: DelegationTypes): void;
   icon: JSX.Element;
+  children: ReactNode;
 }
 
-export const DurationSelectItem: FC<DurationSelectItemProps> = props => {
+export function DurationSelectItem(props: DurationSelectItemProps) {
   const { title, icon, delegationType, activeDelegationType, onChange, children, ...rest } = props;
   const [isFocused, bind] = useFocus();
   return (
@@ -80,4 +81,4 @@ export const DurationSelectItem: FC<DurationSelectItemProps> = props => {
       </Flex>
     </Flex>
   );
-};
+}

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Text, Stack, StackProps } from '@stacks/ui';
 
-import { StackingTermItem } from '../../components/stacking-term';
+import { StackingTermItemProps } from '../../components/stacking-term';
 import { pseudoBorderLeft } from '@components/styles/pseudo-border-left';
 import { IconClock, IconLock } from '@tabler/icons';
 import { StepsIcon } from '@components/icons/steps';

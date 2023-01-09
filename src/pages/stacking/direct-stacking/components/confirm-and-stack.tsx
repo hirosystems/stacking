@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { StackingStep, StackingStepAction } from '../../components/stacking-form-step';
+import { Step, Action } from '../../components/stacking-form-step';
 import { StackingUserConfirm } from '../../components/stacking-user-confirm';
 import { DirectStackingTerms } from './direct-stacking-terms';
 
@@ -15,15 +15,15 @@ export const ConfirmAndStackStep: FC<ConfirmAndLockStepProps> = props => {
   const [hasUserConfirmed, setHasUserConfirmed] = useState(false);
 
   return (
-    <StackingStep title="Confirm and stack" mb="300px">
+    <Step title="Confirm and stack" mb="300px">
       <DirectStackingTerms mt="loose" />
       <StackingUserConfirm
         onChange={useConfirmed => setHasUserConfirmed(useConfirmed)}
         mt="extra-loose"
       />
-      <StackingStepAction onClick={onConfirmAndLock} isDisabled={!hasUserConfirmed} type="submit">
+      <Action onClick={onConfirmAndLock} isDisabled={!hasUserConfirmed} type="submit">
         Confirm and start stacking
-      </StackingStepAction>
-    </StackingStep>
+      </Action>
+    </Step>
   );
 };

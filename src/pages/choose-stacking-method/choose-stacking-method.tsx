@@ -1,40 +1,33 @@
-import React, { FC } from "react";
-import { Box, Flex, useMediaQuery } from "@stacks/ui";
-import { useNavigate } from "react-router-dom";
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// import routes from "@constants/routes.json";
+import fishBowlIllustration from '@assets/images/stack-by-yourself.svg';
+import divingBoardIllustration from '@assets/images/stack-in-a-pool.svg';
+import { StepsIcon } from '@components/icons/steps';
+import { pseudoBorderLeft } from '@components/styles/pseudo-border-left';
+import { ExplainerTooltip } from '@components/tooltip';
+// import { useBalance } from "@hooks/use-balance";
+import { POOLED_STACKING_TX_SIZE_BYTES, STACKING_CONTRACT_CALL_TX_BYTES } from '@constants/index';
+import { Box, Flex, useMediaQuery } from '@stacks/ui';
+import { IconChartLine, IconLock, IconUser, IconUserMinus } from '@tabler/icons';
+// import routes from "@constants/routes";
 // import { useBackButton } from "@hooks/use-back-url";
 // import { useSelector } from "react-redux";
 // import { selectPoxInfo } from "@store/stacking";
-import { toHumanReadableStx } from "@utils/unit-convert";
-// import { useBalance } from "@hooks/use-balance";
+import { toHumanReadableStx } from '@utils/unit-convert';
+
 import {
-  POOLED_STACKING_TX_SIZE_BYTES,
-  STACKING_CONTRACT_CALL_TX_BYTES,
-} from "@constants/index";
-import {
-  StartStackingLayout as Layout,
+  StackingOptionCard as Card,
   StackingOptionsCardContainer as CardContainer,
   StackingOptionsCardDescription as Description,
-  StackingOptionCard as Card,
-  StackingOptionCardTitle as Title,
-  StackingOptionCardButton as OptionButton,
+  InsufficientStackingBalanceWarning,
+  StartStackingLayout as Layout,
   StackingOptionCardBenefit as OptionBenefit,
   StackingOptionCardBenefitContainer as OptionBenefitContainer,
-  InsufficientStackingBalanceWarning,
-} from "./components/start-stacking.layout";
-import { ExplainerTooltip } from "@components/tooltip";
+  StackingOptionCardButton as OptionButton,
+  StackingOptionCardTitle as Title,
+} from './choose-stacking-method.layout';
 
-import divingBoardIllustration from "@assets/images/stack-in-a-pool.svg";
-import fishBowlIllustration from "@assets/images/stack-by-yourself.svg";
-import { pseudoBorderLeft } from "@components/styles/pseudo-border-left";
-import {
-  IconUser,
-  IconChartLine,
-  IconLock,
-  IconUserMinus,
-} from "@tabler/icons";
-import { StepsIcon } from "@components/icons/steps";
 // import { useModifierKey } from "@hooks/use-modifier-key";
 // import { useCalculateFee } from "@hooks/use-calculate-fee";
 
@@ -73,25 +66,19 @@ export const ChooseStackingMethod: FC = () => {
           </Box>
           <Title>Stack in a pool</Title>
           <Description>
-            Team up with other stackers in a pool, enabling you to stack even if
-            you don't meet the minimum. You have to trust a pool with the
-            payment of your rewards.
+            Team up with other stackers in a pool, enabling you to stack even if you don't meet the
+            minimum. You have to trust a pool with the payment of your rewards.
           </Description>
 
           <OptionBenefitContainer>
-            <OptionBenefit icon={IconUser}>
-              A pool stacks on your behalf
-            </OptionBenefit>
-            <OptionBenefit icon={IconChartLine}>
-              More predictable returns
-            </OptionBenefit>
+            <OptionBenefit icon={IconUser}>A pool stacks on your behalf</OptionBenefit>
+            <OptionBenefit icon={IconChartLine}>More predictable returns</OptionBenefit>
             <OptionBenefit icon={StepsIcon}>
               <Flex>
                 No minimum required
                 <Box ml="extra-tight" alignSelf="center">
                   <ExplainerTooltip>
-                    Your chosen pool may set their own minimum amount to
-                    participate
+                    Your chosen pool may set their own minimum amount to participate
                   </ExplainerTooltip>
                 </Box>
               </Flex>
@@ -100,7 +87,7 @@ export const ChooseStackingMethod: FC = () => {
 
           <Flex alignItems="center">
             <OptionButton
-              onClick={() => navigate("../pooled-stacking")}
+              onClick={() => navigate('../pooled-stacking')}
               // isDisabled={
               //   !hasSufficientBalanceToCoverPoolingTxFee && !holdingAltKey
               // }
@@ -114,7 +101,7 @@ export const ChooseStackingMethod: FC = () => {
         </Card>
 
         <Card
-          mt={["extra-loose", null, null, "unset"]}
+          mt={['extra-loose', null, null, 'unset']}
           // {...(columnBreakpoint ? pseudoBorderLeft("border", "1px") : {})}
         >
           <Box height="130px">
@@ -127,20 +114,15 @@ export const ChooseStackingMethod: FC = () => {
           <Title>Stack by yourself</Title>
 
           <Description>
-            When you stack by yourself, you’ll interact with the protocol
-            directly. You don’t have to trust a pool if you have a sufficient
-            amount of STX available.
+            When you stack by yourself, you’ll interact with the protocol directly. You don’t have
+            to trust a pool if you have a sufficient amount of STX available.
           </Description>
 
           <OptionBenefitContainer>
-            <OptionBenefit icon={IconLock}>
-              Interact with the protocol directly
-            </OptionBenefit>
-            <OptionBenefit icon={IconUserMinus}>
-              No intermediaries
-            </OptionBenefit>
+            <OptionBenefit icon={IconLock}>Interact with the protocol directly</OptionBenefit>
+            <OptionBenefit icon={IconUserMinus}>No intermediaries</OptionBenefit>
             <OptionBenefit icon={StepsIcon}>
-              Minimum required to stack is{" "}
+              Minimum required to stack is{' '}
               {/* {toHumanReadableStx(
                 poxInfo?.paddedMinimumStackingAmountMicroStx || 0
               )} */}

@@ -1,18 +1,18 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
-import { useHistory, useLocation, matchPath } from 'react-router';
-import { Flex, color, Stack } from '@stacks/ui';
+import { matchPath, useHistory, useLocation } from 'react-router';
 
-import routes from '@constants/routes.json';
-import { useWindowFocus } from '@hooks/use-window-focus';
+import { ColorModeButton } from '@components/color-mode-button';
+import routes from '@constants/routes';
 import { useCheckForUpdates } from '@hooks/use-check-for-updates';
+import { useWindowFocus } from '@hooks/use-window-focus';
+import { Flex, Stack, color } from '@stacks/ui';
 import { openExternalLink } from '@utils/external-links';
 
-import { NetworkMessage } from './network-message';
 import { BackButton } from '../back-button';
+import { NetworkMessage } from './network-message';
 import { SettingsButton } from './settings-button';
 import { UpdateAvailableButton } from './update-available-button';
-import { ColorModeButton } from '@components/color-mode-button';
 
 export const TitleBar: FC = () => {
   const el = document.querySelector('.draggable-bar');
