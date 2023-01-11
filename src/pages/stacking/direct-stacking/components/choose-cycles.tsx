@@ -5,8 +5,8 @@ import { Stepper } from '@components/stepper';
 import { MAX_STACKING_CYCLES, MIN_STACKING_CYCLES } from '@constants/index';
 
 import {
-  StackingStep as Step,
-  StackingStepDescription as Description,
+  Step as Step,
+  Description as Description,
 } from '../../components/stacking-form-step';
 import { ErrorLabel } from '@components/error-label';
 import { ErrorText } from '@components/error-text';

@@ -7,8 +7,8 @@ import { STACKING_ADDRESS_FORMAT_HELP_URL } from '@constants/index';
 import { ExternalLink } from '@components/external-link';
 
 import {
-  StackingStep as Step,
-  StackingStepDescription as Description,
+  Step as Step,
+  Description as Description,
 } from '../../components/stacking-form-step';
 import { CryptoAddressInput } from '../../components/crypto-address-form';
 import { ExplainerLabel } from '@components/tooltip';

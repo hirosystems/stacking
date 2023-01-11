@@ -1,5 +1,4 @@
-import { toHumanReadableStx, microStxToStx, stxToMicroStx } from './unit-convert';
-import BN from 'bn.js';
+import { microStxToStx, stxToMicroStx, toHumanReadableStx } from './unit-convert';
 
 describe(microStxToStx.name, () => {
   test('given some numerical inputs it outs a known-correct formatting', () => {
@@ -15,10 +14,6 @@ describe(microStxToStx.name, () => {
 
   test('error is thrown when a decimal value is passed', () => {
     expect(() => microStxToStx(0.1)).toThrowError();
-  });
-
-  test('BN values are accepted', () => {
-    expect(microStxToStx(new BN('10000001')).toNumber()).toEqual(10.000001);
   });
 });
 

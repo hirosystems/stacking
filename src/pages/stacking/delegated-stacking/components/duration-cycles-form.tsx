@@ -1,49 +1,40 @@
-import React, { FC, useMemo } from "react";
-import { Flex, InputProps, Text, Box, color } from "@stacks/ui";
-// import { useSelector } from "react-redux";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import updateLocale from "dayjs/plugin/updateLocale";
-import advancedFormat from "dayjs/plugin/advancedFormat";
+import { useMemo } from 'react';
+import { Flex, Text, Box, color } from '@stacks/ui';
 
-import { MAX_STACKING_CYCLES, MIN_STACKING_CYCLES } from "@constants/index";
-// import { selectNextCycleInfo } from '@store/stacking';
-// import { RootState } from '@store/index';
-import { CircleButton } from "@components/circle-button";
-import { decrement, increment } from "@utils/mutate-numbers";
-// import { formatCycles } from "@utils/stacking";
-
-dayjs.extend(duration);
-dayjs.extend(updateLocale);
-dayjs.extend(relativeTime);
-dayjs.extend(advancedFormat);
-
-interface DurationCycleFromProps extends Omit<InputProps, "form"> {
-  duration: number | null;
-  onUpdate(duration: number): void;
-}
+import { MAX_STACKING_CYCLES, MIN_STACKING_CYCLES } from '@constants/index';
+import { CircleButton } from '@components/circle-button';
+import { decrement, increment } from '@utils/mutate-numbers';
+import { useField } from 'formik';
+import { formatCycles } from '@utils/stacking';
+import { useStackingClient } from '@components/stacking-client-provider/stacking-client-provider';
+import { useQuery } from '@tanstack/react-query';
+import { StackingClient } from '@stacks/stacking';
+import { addSeconds, formatDistanceToNow } from 'date-fns';
 
 const createCycleArray = () => new Array(12).fill(null).map((_, i) => i + 1);
 const durationWithDefault = (duration: number | null) => duration ?? 1;
 
-export const DurationCyclesForm: FC<DurationCycleFromProps> = (props) => {
-  const { duration, onUpdate } = props;
+interface DurationCyclesFieldInnerProps {
+  client: StackingClient;
+}
+export function DurationCyclesFieldInner({ client }: DurationCyclesFieldInnerProps) {
+  const q = useQuery(['q'], () => client.getCycleDuration());
+  const [cyclesField, _meta, durationLengthHelpers] = useField('cycles');
+  const duration = cyclesField.value;
 
-  // const { cycleInfo } = useSelector((state: RootState) => ({
-  //   cycleInfo: selectNextCycleInfo(state),
-  // }));
+  const cycleLabels = useMemo(() => {
+    if (typeof q.data !== 'number') return [];
+    return createCycleArray().map(
+      c =>
+        `${formatCycles(c)} ends in about ${formatDistanceToNow(
+          addSeconds(new Date(), c * q.data)
+        )}`
+    );
+  }, [q.data]);
 
-  // const cycleLabels = useMemo(() => {
-  //   if (!cycleInfo) return [];
-  //   return createCycleArray().map((cycles) => {
-  //     return `
-  //       // ${formatCycles(cycles)}
-  //       (ends around ${dayjs()
-  //         .add(cycleInfo.estimateCycleDurationSeconds * cycles, "seconds")
-  //         .format("Do MMMM")})`;
-  //   });
-  // }, [cycleInfo]);
+  if (q.isLoading) return null;
+  if (typeof q.data !== 'number') return null;
+  if (typeof duration !== 'number') return null;
 
   return (
     <Flex
@@ -52,38 +43,32 @@ export const DurationCyclesForm: FC<DurationCycleFromProps> = (props) => {
       mt="base"
       padding="8px"
       boxShadow="low"
-      border={`1px solid ${color("border")}`}
+      border={`1px solid ${color('border')}`}
       borderRadius="8px"
-      onClick={(e) => (e.stopPropagation(), e.preventDefault())}
+      onClick={e => (e.stopPropagation(), e.preventDefault())}
       position="relative"
       zIndex={10}
     >
-      <Text alignItems="center" ml="tight" color={color("text-title")}>
-        {/* {cycleLabels[durationWithDefault(duration) - 1]} */}
+      <Text alignItems="center" ml="tight" color={color('text-title')}>
+        {cycleLabels[duration - 1]}
       </Text>
       <Box>
         <CircleButton
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
-            onUpdate(
-              Math.max(
-                MIN_STACKING_CYCLES,
-                decrement(durationWithDefault(duration))
-              )
+            durationLengthHelpers.setValue(
+              Math.max(MIN_STACKING_CYCLES, decrement(durationWithDefault(duration)))
             );
           }}
         >
           -
         </CircleButton>
         <CircleButton
-          ml={[null, "extra-tight"]}
-          onClick={(e) => {
+          ml={[null, 'extra-tight']}
+          onClick={e => {
             e.stopPropagation();
-            onUpdate(
-              Math.min(
-                MAX_STACKING_CYCLES,
-                increment(durationWithDefault(duration))
-              )
+            durationLengthHelpers.setValue(
+              Math.min(MAX_STACKING_CYCLES, increment(durationWithDefault(duration)))
             );
           }}
         >
@@ -92,4 +77,14 @@ export const DurationCyclesForm: FC<DurationCycleFromProps> = (props) => {
       </Box>
     </Flex>
   );
-};
+}
+
+export function DurationCyclesField() {
+  const { client } = useStackingClient();
+  if (!client) {
+    console.error('Expected `client` to be defined.');
+    return null;
+  }
+
+  return <DurationCyclesFieldInner client={client} />;
+}

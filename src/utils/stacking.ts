@@ -1,10 +1,11 @@
-import { AddressHashMode } from "@stacks/transactions";
-import BN from "bn.js";
-import { base58check } from "@scure/base";
-import { sha256 } from "@noble/hashes/sha256";
-import { NETWORK } from "@constants/index";
+import { NETWORK } from '@constants/index';
+import { sha256 } from '@noble/hashes/sha256';
+import { base58check } from '@scure/base';
+import { AddressHashMode } from '@stacks/transactions';
 
-const poxKeyToVersionBytesMap: Record<"mainnet" | "testnet", any> = {
+import { bufferToNumber } from './buffer-to-number';
+
+const poxKeyToVersionBytesMap: Record<'mainnet' | 'testnet', any> = {
   mainnet: {
     [AddressHashMode.SerializeP2PKH]: 0x00,
     [AddressHashMode.SerializeP2SH]: 0x05,
@@ -19,19 +20,13 @@ interface ConvertToPoxAddressBtc {
   version: Buffer;
   hashbytes: Buffer;
 }
-export function convertPoxAddressToBtc(network: "mainnet" | "testnet") {
+export function convertPoxAddressToBtc(network: 'mainnet' | 'testnet') {
   return ({ version, hashbytes }: ConvertToPoxAddressBtc) => {
-    const ver = new BN(version).toNumber() as AddressHashMode;
-    if (
-      ver === AddressHashMode.SerializeP2WPKH ||
-      ver === AddressHashMode.SerializeP2WSH
-    )
+    const ver = bufferToNumber(version) as AddressHashMode;
+    if (ver === AddressHashMode.SerializeP2WPKH || ver === AddressHashMode.SerializeP2WSH)
       return null;
     return base58check(sha256).encode(
-      Buffer.concat([
-        Buffer.from([poxKeyToVersionBytesMap[network][ver]]),
-        hashbytes,
-      ])
+      Buffer.concat([Buffer.from([poxKeyToVersionBytesMap[network][ver]]), hashbytes])
     );
   };
 }
@@ -39,5 +34,5 @@ export function convertPoxAddressToBtc(network: "mainnet" | "testnet") {
 export const formatPoxAddressToNetwork = convertPoxAddressToBtc(NETWORK);
 
 export function formatCycles(cycles: number) {
-  return `${cycles} cycle${cycles !== 1 ? "s" : ""}`;
+  return `${cycles} cycle${cycles !== 1 ? 's' : ''}`;
 }

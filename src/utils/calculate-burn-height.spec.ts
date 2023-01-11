@@ -1,14 +1,14 @@
-import { calculateUntilBurnHeightBlockFromCycles } from './calculate-burn-height';
+import { cyclesToBurnChainHeight } from './calculate-burn-height';
 
-describe(calculateUntilBurnHeightBlockFromCycles.name, () => {
+describe(cyclesToBurnChainHeight.name, () => {
   const genesisBurnBlockHeight = 666050;
 
   describe('testnet scenarios', () => {
     const rewardCycleLength = 50;
 
     test('it calculates correctly with one cycle', () => {
-      const result = calculateUntilBurnHeightBlockFromCycles({
-        genesisBurnBlockHeight,
+      const result = cyclesToBurnChainHeight({
+        firstBurnchainBlockHeight: genesisBurnBlockHeight,
         cycles: 1,
         currentCycleId: 1,
         rewardCycleLength,
@@ -18,8 +18,8 @@ describe(calculateUntilBurnHeightBlockFromCycles.name, () => {
     });
 
     test('it calculates correctly with two cycles', () => {
-      const result = calculateUntilBurnHeightBlockFromCycles({
-        genesisBurnBlockHeight,
+      const result = cyclesToBurnChainHeight({
+        firstBurnchainBlockHeight: genesisBurnBlockHeight,
         cycles: 2,
         currentCycleId: 1,
         rewardCycleLength,
@@ -33,8 +33,8 @@ describe(calculateUntilBurnHeightBlockFromCycles.name, () => {
     const rewardCycleLength = 2100;
 
     test('it calculates correctly with three cycles, one block into current cycle', () => {
-      const result = calculateUntilBurnHeightBlockFromCycles({
-        genesisBurnBlockHeight,
+      const result = cyclesToBurnChainHeight({
+        firstBurnchainBlockHeight: genesisBurnBlockHeight,
         rewardCycleLength,
         cycles: 3,
         currentCycleId: 1,
@@ -44,8 +44,8 @@ describe(calculateUntilBurnHeightBlockFromCycles.name, () => {
     });
 
     test('it calculates correctly with eight cycles', () => {
-      const result = calculateUntilBurnHeightBlockFromCycles({
-        genesisBurnBlockHeight,
+      const result = cyclesToBurnChainHeight({
+        firstBurnchainBlockHeight: genesisBurnBlockHeight,
         rewardCycleLength,
         cycles: 8,
         currentCycleId: 1,
@@ -55,8 +55,8 @@ describe(calculateUntilBurnHeightBlockFromCycles.name, () => {
     });
 
     test('it calculates correctly with twelve cycles', () => {
-      const result = calculateUntilBurnHeightBlockFromCycles({
-        genesisBurnBlockHeight,
+      const result = cyclesToBurnChainHeight({
+        firstBurnchainBlockHeight: genesisBurnBlockHeight,
         rewardCycleLength,
         cycles: 12,
         currentCycleId: 10,

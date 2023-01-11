@@ -1,23 +1,14 @@
-import React, { FC, useRef } from 'react';
-
-import { useField } from 'formik';
-import { Text } from '@stacks/ui';
-
 import { ErrorLabel } from '@components/error-label';
 import { ErrorText } from '@components/error-text';
 import { ExternalLink } from '@components/external-link';
-
-import {
-  StackingStep as Step,
-  StackingStepDescription as Description,
-} from '../../components/stacking-form-step';
+import { Text } from '@stacks/ui';
+import { useField } from 'formik';
 
 import { CryptoAddressInput } from '../../components/crypto-address-form';
+import { Description, Step } from '../../components/stacking-form-step';
 
-export const ChoosePoolStxAddressField: FC = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const [field, meta] = useField('stxAddress');
+export function ChoosePoolAddressField() {
+  const [field, meta] = useField('poolAddress');
 
   return (
     <Step title="Pool address">
@@ -34,12 +25,7 @@ export const ChoosePoolStxAddressField: FC = () => {
           Discover pools on stacks.co
         </ExternalLink>
       </Description>
-      <CryptoAddressInput
-        ref={inputRef}
-        fieldName="stxAddress"
-        placeholder="Pool address"
-        {...field}
-      >
+      <CryptoAddressInput fieldName="poolAddress" placeholder="Pool address" {...field}>
         {meta.touched && meta.error && (
           <ErrorLabel>
             <ErrorText>{meta.error}</ErrorText>
@@ -48,4 +34,4 @@ export const ChoosePoolStxAddressField: FC = () => {
       </CryptoAddressInput>
     </Step>
   );
-};
+}
